@@ -33,6 +33,7 @@ func createCaso(w http.ResponseWriter, r *http.Request) {
 	}
 
 	HOST := getVariable("HOST_GRPC")
+	log.Println(HOST)
 
 	conn, err := grpc.Dial(HOST, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
