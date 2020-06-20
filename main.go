@@ -70,7 +70,7 @@ func indexRoute(w http.ResponseWriter, r *http.Request) {
 func getVariable(key string) string {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatalf("Error loading .env file")
+		log.Println(err)
 	}
 	return os.Getenv(key)
 }
