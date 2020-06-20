@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package main;
+
+service Caso {
+  rpc CrearCaso (CasoRequest) returns (CasoReply) {}
+}
+
+message CasoRequest {
+  string nombre = 1;
+  string departamento = 2;
+  int32  edad = 3;
+  string forma_contagio = 4;
+  string estado = 5;
+}
+
+message CasoReply {
+  string mensaje = 1;
+}
