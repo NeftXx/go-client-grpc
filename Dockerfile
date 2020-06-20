@@ -23,4 +23,6 @@ RUN go build -o /go/bin/app
 FROM gcr.io/distroless/base-debian10
 COPY --from=build-env /go/bin/app /
 COPY --from=build-env /go/src/app /
+ARG HOST_GRPC
+EXPOSE 4000
 CMD ["/app"]

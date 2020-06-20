@@ -7,9 +7,11 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 	"github.com/jesseokeya/go-httplogger"
+	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 )
 
@@ -30,7 +32,9 @@ func createCaso(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	conn, err := grpc.Dial("localhost:9000", grpc.WithInsecure(), grpc.WithBlock())
+	HOST := getVariable("HOST_GRPC")
+
+	conn, err := grpc.Dial(HOST, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Println(err)
 		fmt.Fprintf(w, "No se pudo conectar al servidor GRPC")
@@ -61,6 +65,14 @@ func createCaso(w http.ResponseWriter, r *http.Request) {
 
 func indexRoute(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Bienvenido a mi API")
+}
+
+func getVariable(key string) string {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
+	return os.Getenv(key)
 }
 
 func main() {
