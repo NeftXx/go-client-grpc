@@ -15,7 +15,7 @@ RUN git clone https://github.com/google/protobuf.git && \
     rm -r protobuf
 
 WORKDIR /go/src/app
-ADD . /go/src/app
+COPY . /go/src/app
 
 RUN go get -d -v ./...
 RUN go build -o /go/bin/app

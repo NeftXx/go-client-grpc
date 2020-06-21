@@ -33,7 +33,6 @@ func createCaso(w http.ResponseWriter, r *http.Request) {
 	}
 
 	HOST := getVariable("HOST_GRPC")
-	log.Println(HOST)
 
 	conn, err := grpc.Dial(HOST, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
@@ -61,7 +60,9 @@ func createCaso(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "No se ha podido enviar el caso.")
 		return
 	}
-	fmt.Fprintf(w, "Mensaje: %s", response.GetMensaje())
+	message := response.GetMensaje()
+	log.Println(message)
+	fmt.Fprintf(w, "Mensaje: %s", message)
 }
 
 func indexRoute(w http.ResponseWriter, r *http.Request) {
