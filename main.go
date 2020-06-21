@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/jesseokeya/go-httplogger"
@@ -32,6 +33,9 @@ func createCaso(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	var nuevoCaso Caso
+	json.Unmarshal(reqBody, &nuevoCaso)
+
 	URL := getVariable("URL_GRPC")
 
 	conn, err := grpc.Dial(URL, grpc.WithInsecure(), grpc.WithBlock())
@@ -42,13 +46,13 @@ func createCaso(w http.ResponseWriter, r *http.Request) {
 	}
 	defer conn.Close()
 
-	var nuevoCaso Caso
-	json.Unmarshal(reqBody, &nuevoCaso)
-
 	nuevoCliente := NewCasoClient(conn)
 
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+
 	response, err := nuevoCliente.CrearCaso(
-		context.Background(), &CasoRequest{
+		ctx, &CasoRequest{
 			Nombre:        nuevoCaso.Nombre,
 			Departamento:  nuevoCaso.Departamento,
 			Edad:          nuevoCaso.Edad,
