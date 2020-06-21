@@ -16,7 +16,9 @@ RUN git clone https://github.com/google/protobuf.git && \
 
 RUN go get google.golang.org/grpc
 RUN go get github.com/golang/protobuf/protoc-gen-go
-RUN go get -d -v ./...
+RUN go get -u github.com/gorilla/mux
+RUN go get github.com/jesseokeya/go-httplogger
+RUN go get github.com/joho/godotenv
 RUN ls -la
 RUN go build -o /go/bin/app
 
