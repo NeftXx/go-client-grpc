@@ -41,12 +41,15 @@ func createCaso(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer conn.Close()
-
+	log.Println("conexion")
+	log.Println(conn)
 	var nuevoCaso Caso
 	json.Unmarshal(reqBody, &nuevoCaso)
-
+	log.Println("Nuevo caso")
+	log.Println(nuevoCaso)
 	nuevoCliente := NewCasoClient(conn)
-
+	log.Println("Nuevo cliente")
+	log.Println(nuevoCliente)
 	response, err := nuevoCliente.CrearCaso(
 		context.Background(), &CasoRequest{
 			Nombre:        nuevoCaso.Nombre,
@@ -54,7 +57,7 @@ func createCaso(w http.ResponseWriter, r *http.Request) {
 			Edad:          nuevoCaso.Edad,
 			FormaContagio: nuevoCaso.FormaContagio,
 			Estado:        nuevoCaso.Estado})
-
+	log.Println("HOLA")
 	if err != nil {
 		log.Println(err)
 		fmt.Fprintf(w, "No se ha podido enviar el caso.")
