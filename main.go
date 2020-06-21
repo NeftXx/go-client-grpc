@@ -32,9 +32,9 @@ func createCaso(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	HOST := getVariable("HOST_GRPC")
+	URL := getVariable("URL_GRPC")
 
-	conn, err := grpc.Dial(HOST, grpc.WithInsecure(), grpc.WithBlock())
+	conn, err := grpc.Dial(URL, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Println(err)
 		fmt.Fprintf(w, "No se pudo conectar al servidor GRPC")
