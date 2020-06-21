@@ -12,7 +12,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/jesseokeya/go-httplogger"
 	"github.com/joho/godotenv"
-	"google.golang.org/grpc"
+	grpc "google.golang.org/grpc"
 )
 
 // Caso : Estructura para guardar un nuevo caso

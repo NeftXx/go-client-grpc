@@ -1,4 +1,4 @@
-FROM golang:1.13-buster as build-env
+FROM golang:1.13-buster as build
 
 # install protobuf from source
 RUN apt-get update && \
@@ -15,14 +15,13 @@ RUN git clone https://github.com/google/protobuf.git && \
     rm -r protobuf
 
 WORKDIR /go/src/app
-COPY . /go/src/app
+ADD . /go/src/app
 
 RUN go get -d -v ./...
 RUN go build -o /go/bin/app
 
 FROM gcr.io/distroless/base-debian10
-COPY --from=build-env /go/bin/app /
-COPY --from=build-env /go/src/app /
+COPY --from=build /go/bin/app /
 ARG HOST_GRPC
 EXPOSE 4000
 CMD ["/app"]
