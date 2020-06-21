@@ -20,10 +20,11 @@ RUN go get -u github.com/gorilla/mux
 RUN go get github.com/jesseokeya/go-httplogger
 RUN go get github.com/joho/godotenv
 RUN ls -la
-RUN go build -o /go/bin/app
 
 WORKDIR /go/src/app
-ADD . /go/src/app
+COPY . /go/src/app
+
+RUN go build -o /go/bin/app
 
 FROM gcr.io/distroless/base-debian10
 COPY --from=build /go/bin/app /
