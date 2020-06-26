@@ -34,11 +34,7 @@ type CasoRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Nombre        string `protobuf:"bytes,1,opt,name=nombre,proto3" json:"nombre,omitempty"`
-	Departamento  string `protobuf:"bytes,2,opt,name=departamento,proto3" json:"departamento,omitempty"`
-	Edad          int32  `protobuf:"varint,3,opt,name=edad,proto3" json:"edad,omitempty"`
-	FormaContagio string `protobuf:"bytes,4,opt,name=forma_contagio,json=formaContagio,proto3" json:"forma_contagio,omitempty"`
-	Estado        string `protobuf:"bytes,5,opt,name=estado,proto3" json:"estado,omitempty"`
+	Casos []*CasoItem `protobuf:"bytes,1,rep,name=casos,proto3" json:"casos,omitempty"`
 }
 
 func (x *CasoRequest) Reset() {
@@ -73,35 +69,86 @@ func (*CasoRequest) Descriptor() ([]byte, []int) {
 	return file_caso_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *CasoRequest) GetNombre() string {
+func (x *CasoRequest) GetCasos() []*CasoItem {
+	if x != nil {
+		return x.Casos
+	}
+	return nil
+}
+
+type CasoItem struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Nombre        string `protobuf:"bytes,1,opt,name=nombre,proto3" json:"nombre,omitempty"`
+	Departamento  string `protobuf:"bytes,2,opt,name=departamento,proto3" json:"departamento,omitempty"`
+	Edad          int32  `protobuf:"varint,3,opt,name=edad,proto3" json:"edad,omitempty"`
+	FormaContagio string `protobuf:"bytes,4,opt,name=forma_contagio,json=formaContagio,proto3" json:"forma_contagio,omitempty"`
+	Estado        string `protobuf:"bytes,5,opt,name=estado,proto3" json:"estado,omitempty"`
+}
+
+func (x *CasoItem) Reset() {
+	*x = CasoItem{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_caso_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CasoItem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CasoItem) ProtoMessage() {}
+
+func (x *CasoItem) ProtoReflect() protoreflect.Message {
+	mi := &file_caso_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CasoItem.ProtoReflect.Descriptor instead.
+func (*CasoItem) Descriptor() ([]byte, []int) {
+	return file_caso_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *CasoItem) GetNombre() string {
 	if x != nil {
 		return x.Nombre
 	}
 	return ""
 }
 
-func (x *CasoRequest) GetDepartamento() string {
+func (x *CasoItem) GetDepartamento() string {
 	if x != nil {
 		return x.Departamento
 	}
 	return ""
 }
 
-func (x *CasoRequest) GetEdad() int32 {
+func (x *CasoItem) GetEdad() int32 {
 	if x != nil {
 		return x.Edad
 	}
 	return 0
 }
 
-func (x *CasoRequest) GetFormaContagio() string {
+func (x *CasoItem) GetFormaContagio() string {
 	if x != nil {
 		return x.FormaContagio
 	}
 	return ""
 }
 
-func (x *CasoRequest) GetEstado() string {
+func (x *CasoItem) GetEstado() string {
 	if x != nil {
 		return x.Estado
 	}
@@ -119,7 +166,7 @@ type CasoReply struct {
 func (x *CasoReply) Reset() {
 	*x = CasoReply{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_caso_proto_msgTypes[1]
+		mi := &file_caso_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -132,7 +179,7 @@ func (x *CasoReply) String() string {
 func (*CasoReply) ProtoMessage() {}
 
 func (x *CasoReply) ProtoReflect() protoreflect.Message {
-	mi := &file_caso_proto_msgTypes[1]
+	mi := &file_caso_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -145,7 +192,7 @@ func (x *CasoReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CasoReply.ProtoReflect.Descriptor instead.
 func (*CasoReply) Descriptor() ([]byte, []int) {
-	return file_caso_proto_rawDescGZIP(), []int{1}
+	return file_caso_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *CasoReply) GetMensaje() string {
@@ -159,23 +206,26 @@ var File_caso_proto protoreflect.FileDescriptor
 
 var file_caso_proto_rawDesc = []byte{
 	0x0a, 0x0a, 0x63, 0x61, 0x73, 0x6f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x04, 0x6d, 0x61,
-	0x69, 0x6e, 0x22, 0x9c, 0x01, 0x0a, 0x0b, 0x43, 0x61, 0x73, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x6e, 0x6f, 0x6d, 0x62, 0x72, 0x65, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x06, 0x6e, 0x6f, 0x6d, 0x62, 0x72, 0x65, 0x12, 0x22, 0x0a, 0x0c, 0x64, 0x65,
-	0x70, 0x61, 0x72, 0x74, 0x61, 0x6d, 0x65, 0x6e, 0x74, 0x6f, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x0c, 0x64, 0x65, 0x70, 0x61, 0x72, 0x74, 0x61, 0x6d, 0x65, 0x6e, 0x74, 0x6f, 0x12, 0x12,
-	0x0a, 0x04, 0x65, 0x64, 0x61, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x65, 0x64,
-	0x61, 0x64, 0x12, 0x25, 0x0a, 0x0e, 0x66, 0x6f, 0x72, 0x6d, 0x61, 0x5f, 0x63, 0x6f, 0x6e, 0x74,
-	0x61, 0x67, 0x69, 0x6f, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x66, 0x6f, 0x72, 0x6d,
-	0x61, 0x43, 0x6f, 0x6e, 0x74, 0x61, 0x67, 0x69, 0x6f, 0x12, 0x16, 0x0a, 0x06, 0x65, 0x73, 0x74,
-	0x61, 0x64, 0x6f, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x65, 0x73, 0x74, 0x61, 0x64,
-	0x6f, 0x22, 0x25, 0x0a, 0x09, 0x43, 0x61, 0x73, 0x6f, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x12, 0x18,
-	0x0a, 0x07, 0x6d, 0x65, 0x6e, 0x73, 0x61, 0x6a, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x07, 0x6d, 0x65, 0x6e, 0x73, 0x61, 0x6a, 0x65, 0x32, 0x39, 0x0a, 0x04, 0x43, 0x61, 0x73, 0x6f,
-	0x12, 0x31, 0x0a, 0x09, 0x43, 0x72, 0x65, 0x61, 0x72, 0x43, 0x61, 0x73, 0x6f, 0x12, 0x11, 0x2e,
-	0x6d, 0x61, 0x69, 0x6e, 0x2e, 0x43, 0x61, 0x73, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x1a, 0x0f, 0x2e, 0x6d, 0x61, 0x69, 0x6e, 0x2e, 0x43, 0x61, 0x73, 0x6f, 0x52, 0x65, 0x70, 0x6c,
-	0x79, 0x22, 0x00, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x69, 0x6e, 0x22, 0x33, 0x0a, 0x0b, 0x43, 0x61, 0x73, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x12, 0x24, 0x0a, 0x05, 0x63, 0x61, 0x73, 0x6f, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b,
+	0x32, 0x0e, 0x2e, 0x6d, 0x61, 0x69, 0x6e, 0x2e, 0x43, 0x61, 0x73, 0x6f, 0x49, 0x74, 0x65, 0x6d,
+	0x52, 0x05, 0x63, 0x61, 0x73, 0x6f, 0x73, 0x22, 0x99, 0x01, 0x0a, 0x08, 0x43, 0x61, 0x73, 0x6f,
+	0x49, 0x74, 0x65, 0x6d, 0x12, 0x16, 0x0a, 0x06, 0x6e, 0x6f, 0x6d, 0x62, 0x72, 0x65, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x6e, 0x6f, 0x6d, 0x62, 0x72, 0x65, 0x12, 0x22, 0x0a, 0x0c,
+	0x64, 0x65, 0x70, 0x61, 0x72, 0x74, 0x61, 0x6d, 0x65, 0x6e, 0x74, 0x6f, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x0c, 0x64, 0x65, 0x70, 0x61, 0x72, 0x74, 0x61, 0x6d, 0x65, 0x6e, 0x74, 0x6f,
+	0x12, 0x12, 0x0a, 0x04, 0x65, 0x64, 0x61, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04,
+	0x65, 0x64, 0x61, 0x64, 0x12, 0x25, 0x0a, 0x0e, 0x66, 0x6f, 0x72, 0x6d, 0x61, 0x5f, 0x63, 0x6f,
+	0x6e, 0x74, 0x61, 0x67, 0x69, 0x6f, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x66, 0x6f,
+	0x72, 0x6d, 0x61, 0x43, 0x6f, 0x6e, 0x74, 0x61, 0x67, 0x69, 0x6f, 0x12, 0x16, 0x0a, 0x06, 0x65,
+	0x73, 0x74, 0x61, 0x64, 0x6f, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x65, 0x73, 0x74,
+	0x61, 0x64, 0x6f, 0x22, 0x25, 0x0a, 0x09, 0x43, 0x61, 0x73, 0x6f, 0x52, 0x65, 0x70, 0x6c, 0x79,
+	0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x6e, 0x73, 0x61, 0x6a, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x07, 0x6d, 0x65, 0x6e, 0x73, 0x61, 0x6a, 0x65, 0x32, 0x3a, 0x0a, 0x04, 0x43, 0x61,
+	0x73, 0x6f, 0x12, 0x32, 0x0a, 0x0a, 0x43, 0x72, 0x65, 0x61, 0x72, 0x43, 0x61, 0x73, 0x6f, 0x73,
+	0x12, 0x11, 0x2e, 0x6d, 0x61, 0x69, 0x6e, 0x2e, 0x43, 0x61, 0x73, 0x6f, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x0f, 0x2e, 0x6d, 0x61, 0x69, 0x6e, 0x2e, 0x43, 0x61, 0x73, 0x6f, 0x52,
+	0x65, 0x70, 0x6c, 0x79, 0x22, 0x00, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -190,19 +240,21 @@ func file_caso_proto_rawDescGZIP() []byte {
 	return file_caso_proto_rawDescData
 }
 
-var file_caso_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_caso_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_caso_proto_goTypes = []interface{}{
 	(*CasoRequest)(nil), // 0: main.CasoRequest
-	(*CasoReply)(nil),   // 1: main.CasoReply
+	(*CasoItem)(nil),    // 1: main.CasoItem
+	(*CasoReply)(nil),   // 2: main.CasoReply
 }
 var file_caso_proto_depIdxs = []int32{
-	0, // 0: main.Caso.CrearCaso:input_type -> main.CasoRequest
-	1, // 1: main.Caso.CrearCaso:output_type -> main.CasoReply
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	1, // 0: main.CasoRequest.casos:type_name -> main.CasoItem
+	0, // 1: main.Caso.CrearCasos:input_type -> main.CasoRequest
+	2, // 2: main.Caso.CrearCasos:output_type -> main.CasoReply
+	2, // [2:3] is the sub-list for method output_type
+	1, // [1:2] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_caso_proto_init() }
@@ -224,6 +276,18 @@ func file_caso_proto_init() {
 			}
 		}
 		file_caso_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CasoItem); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_caso_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*CasoReply); i {
 			case 0:
 				return &v.state
@@ -242,7 +306,7 @@ func file_caso_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_caso_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -268,7 +332,7 @@ const _ = grpc.SupportPackageIsVersion6
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type CasoClient interface {
-	CrearCaso(ctx context.Context, in *CasoRequest, opts ...grpc.CallOption) (*CasoReply, error)
+	CrearCasos(ctx context.Context, in *CasoRequest, opts ...grpc.CallOption) (*CasoReply, error)
 }
 
 type casoClient struct {
@@ -279,9 +343,9 @@ func NewCasoClient(cc grpc.ClientConnInterface) CasoClient {
 	return &casoClient{cc}
 }
 
-func (c *casoClient) CrearCaso(ctx context.Context, in *CasoRequest, opts ...grpc.CallOption) (*CasoReply, error) {
+func (c *casoClient) CrearCasos(ctx context.Context, in *CasoRequest, opts ...grpc.CallOption) (*CasoReply, error) {
 	out := new(CasoReply)
-	err := c.cc.Invoke(ctx, "/main.Caso/CrearCaso", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/main.Caso/CrearCasos", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -290,35 +354,35 @@ func (c *casoClient) CrearCaso(ctx context.Context, in *CasoRequest, opts ...grp
 
 // CasoServer is the server API for Caso service.
 type CasoServer interface {
-	CrearCaso(context.Context, *CasoRequest) (*CasoReply, error)
+	CrearCasos(context.Context, *CasoRequest) (*CasoReply, error)
 }
 
 // UnimplementedCasoServer can be embedded to have forward compatible implementations.
 type UnimplementedCasoServer struct {
 }
 
-func (*UnimplementedCasoServer) CrearCaso(context.Context, *CasoRequest) (*CasoReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CrearCaso not implemented")
+func (*UnimplementedCasoServer) CrearCasos(context.Context, *CasoRequest) (*CasoReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CrearCasos not implemented")
 }
 
 func RegisterCasoServer(s *grpc.Server, srv CasoServer) {
 	s.RegisterService(&_Caso_serviceDesc, srv)
 }
 
-func _Caso_CrearCaso_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Caso_CrearCasos_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CasoRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CasoServer).CrearCaso(ctx, in)
+		return srv.(CasoServer).CrearCasos(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/main.Caso/CrearCaso",
+		FullMethod: "/main.Caso/CrearCasos",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CasoServer).CrearCaso(ctx, req.(*CasoRequest))
+		return srv.(CasoServer).CrearCasos(ctx, req.(*CasoRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -328,8 +392,8 @@ var _Caso_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*CasoServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CrearCaso",
-			Handler:    _Caso_CrearCaso_Handler,
+			MethodName: "CrearCasos",
+			Handler:    _Caso_CrearCasos_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

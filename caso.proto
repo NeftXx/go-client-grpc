@@ -3,10 +3,14 @@ syntax = "proto3";
 package main;
 
 service Caso {
-  rpc CrearCaso (CasoRequest) returns (CasoReply) {}
+  rpc CrearCasos (CasoRequest) returns (CasoReply) {}
 }
 
 message CasoRequest {
+  repeated CasoItem casos = 1;
+}
+
+message CasoItem {
   string nombre = 1;
   string departamento = 2;
   int32  edad = 3;
