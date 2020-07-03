@@ -17,24 +17,11 @@ import (
 	grpc "google.golang.org/grpc"
 )
 
-// Casos : Estructura para guardar los casos que se envian desde un cliente
-// type Casos struct {
-// 	Casos []Caso `json:"casos"`
-// }
-
-// // Caso : Estructura para guardar un nuevo caso
-// type Caso struct {
-// 	Nombre        string `json:"nombre"`
-// 	Departamento  string `json:"departamento"`
-// 	Edad          int32  `json:"edad"`
-// 	FormaContagio string `json:"formaContagio"`
-// 	Estado        string `json:"estado"`
-// }
-
 func createCaso(w http.ResponseWriter, r *http.Request) {
 	reqBody, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		log.Println(err)
+		w.WriteHeader(http.StatusOK)
 		fmt.Fprintf(w, "Se han enviado datos incorrectos para crear un caso")
 		return
 	}
@@ -42,6 +29,7 @@ func createCaso(w http.ResponseWriter, r *http.Request) {
 	nuevos := &CasoRequest{}
 	if err := jsonpb.Unmarshal(bytes.NewBuffer(reqBody), nuevos); err != nil {
 		log.Println(err)
+		w.WriteHeader(http.StatusOK)
 		fmt.Fprintf(w, "Se han enviado datos incorrectos para crear un caso")
 		return
 	}
@@ -51,6 +39,7 @@ func createCaso(w http.ResponseWriter, r *http.Request) {
 	conn, err := grpc.Dial(URL, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Println(err)
+		w.WriteHeader(http.StatusOK)
 		fmt.Fprintf(w, "No se pudo conectar al servidor GRPC")
 		return
 	}
@@ -65,16 +54,19 @@ func createCaso(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		log.Println(err)
+		w.WriteHeader(http.StatusOK)
 		fmt.Fprintf(w, "No se ha podido enviar el caso.")
 		return
 	}
 	message := response.GetMensaje()
+	w.WriteHeader(http.StatusOK)
 	log.Println(message)
 	fmt.Fprintf(w, "Mensaje: %s", message)
 }
 
 func indexRoute(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Bienvenido a mi API")
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, "Bienvenido a mi API en Golang")
 }
 
 func getVariable(key string) string {
@@ -89,6 +81,7 @@ func main() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", indexRoute).Methods("GET")
 	router.HandleFunc("/", createCaso).Methods("POST")
+	router.Use(mux.CORSMethodMiddleware(router))
 	log.Println("Starting server. Listening on port 4000.")
 	log.Fatal(http.ListenAndServe(":4000", httplogger.Golog(router)))
 }
